@@ -1,0 +1,12 @@
+t_set <- c(0.0,0.67,0.84,1.28,1.65,2.32,2.58,3.09,3.72)
+for (t in t_set) {
+  True_value <- pnorm(t)
+  print(True_value)
+  N_set <- c(100, 1000, 10000)
+  for (N in N_set) {
+    x <- rnorm(N, mean=0, sd=1)
+    Indicator_variable <- as.numeric(x <= t)
+    Fi_t = mean(Indicator_variable)
+    print(Fi_t)
+    }
+}
