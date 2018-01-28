@@ -52,7 +52,11 @@ for(N in N_set){
   }
   i=i+1
 }
-print(Result_Matrix)
+Result_Table <- t(Result_Matrix) 
+colnames(Result_Table) <- c("**t value**", "**True value**", 
+                            "**N=100**", "**N=1000**", 
+                            "**N=10000**")
+knitr::kable(Result_Table, digits = 4, align = c(rep('c', 5)))
 ```
 
 ## 6. Figures
