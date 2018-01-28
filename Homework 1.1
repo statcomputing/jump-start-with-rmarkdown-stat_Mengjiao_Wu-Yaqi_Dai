@@ -34,10 +34,7 @@ for(N in N_set){
  i=i+1
   
 }
-c1 <- Bias[1,]
-c2 <- Bias[2,]
-c3 <- Bias[3,]
-Bias_all <- matrix(data= NA, nrow = 1, ncol = 300)
-Bias_all[1,1:100] <- c1
-Bias_all[1,101:200] <- c2
-Bias_all[1,201:300] <- c3
+Bias_t <- t(Bias)
+Bias_N <- cbind(N100 = Bias_t[,1],N1000 = Bias_t[,2],N10000 = Bias_t[,3])
+boxplot(as.data.frame(Bias_N))
+
