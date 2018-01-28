@@ -31,8 +31,7 @@ for(N in N_set){
     Fi_t = mean(Indicator_variable)
     Bias[i,j] <- Fi_t-true_value
   }
- i=i+1
-  
+ i=i+1 
 }
 Bias_t <- t(Bias)
 Bias_N <- cbind(N100 = Bias_t[,1],N1000 = Bias_t[,2],N10000 = Bias_t[,3])
