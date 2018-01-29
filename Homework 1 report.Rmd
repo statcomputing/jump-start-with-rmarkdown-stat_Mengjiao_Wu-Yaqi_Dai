@@ -18,11 +18,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ## 3. Math Theory
-Monte Carlo methods
-equation
+
+
+distribution function of N(0,1) equation
 $$\Phi(t) = \int_{-\infty}^t{\frac{1}{\sqrt{2\pi}}}e^{-\frac{y^2}{2}}{\rm d}y$$
 
-
+Monte Carlo methods equation
+$$\Phi$$
 
 ## 4. Code chunks
 
