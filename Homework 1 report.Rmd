@@ -28,11 +28,9 @@ $$\Phi(t) = \int_{-\infty}^t{\frac{1}{\sqrt{2\pi}}}e^{-\frac{y^2}{2}}{\rm d}y$$
 by the Monte Carlo methods:
 $$\hat\Phi(t)=\frac{1}{n}\sum_{i=1}^n{\mit{I}(X_i\leq t)},$$
 where $\mit X_i's$ are iid ${\mit{N}}(0,1)$ variables. Then we make the approximation at ${\mit n}\in\lbrace10^2,10^3,10^4\rbrace$ at ${\mit t}\in\lbrace0.0,0.67,0.84,1.28,1.65,2.32,2.58,3.09,3.72\rbrace$.The results are showed in the following table in Section 4.Further we repeat the experiment for 100 times and compute the bias, the boxplots of bias are showed in Section 5.
+
 # Code chunks
 
-<<<<<<< HEAD
-=======
-# 3. Code chunks
 Code chunk for calculating the true values and approximated values through Monte Carlo methods is shown as:
 ```{r, eval=FALSE}
 Result_Matrix <- matrix(data = NA, nrow = 5, ncol = 9)
@@ -53,7 +51,7 @@ for(N in N_set){
   i = i+1
 }
 ```
->>>>>>> 6078eaa65d73572c9d173c6a7f409cbc04042791
+
 
 And code chunk for drawing box plots of bias at different t values is displayed as: 
 ```{r, eval=FALSE}
@@ -74,18 +72,14 @@ for (t in t_set){
   i=i+1
   }
 
-<<<<<<< HEAD
-
-# Table
-=======
 Bias_t <- t(Bias)
 Bias_N <- cbind(N100 = Bias_t[,1],N1000 = Bias_t[,2],N10000 = Bias_t[,3])
 boxplot(as.data.frame(Bias_N))
 }
 ```
 
-# 4. Table
->>>>>>> 6078eaa65d73572c9d173c6a7f409cbc04042791
+# Table
+
 Table containing true values and approximated values derived from Monte Carlo methods is shown as below: 
 ```{r echo=FALSE, message=TRUE}
 Result_Matrix <- matrix(data = NA,nrow=5,ncol=9)
@@ -116,7 +110,8 @@ knitr::kable(
 ```
 
 # Figures
-```{r echo=FALSE}
+
+```{r}
 N_set <- c(100, 1000, 10000)
 t_set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
 par(mfrow=c(3,3))
@@ -146,7 +141,9 @@ These are the boxplots of bias at different t and different n.
 
 
 # Discussion and Conclusion
+
 First, we take the boxplot at t=0 as an example. From the boxplot, when t is fixed, the bias decreases as n increases. The range of bias also decreases as n increases.
+
 ```{r echo=FALSE}
 N_set <- c(100, 1000, 10000)
 Bias <- matrix(data = NA, nrow = 3, ncol = 100)
