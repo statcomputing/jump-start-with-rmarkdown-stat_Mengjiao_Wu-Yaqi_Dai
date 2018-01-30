@@ -3,41 +3,39 @@ title: "Homework 1"
 author: "Mengjiao Wu & Yaqi Dai"
 date: "January 28, 2018"
 output: pdf_document
+abstract: |
+    This paper demonstrates the use of Monte Carlo methods in simulation of distribution      function N(0,1) at different t values.
+
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Abstract
-This paper demonstrates the use of Monte Carlo methods in simulation of distribution function N(0,1) at different t values.
 
-# 1. Introduction
+# Introduction
 Monte Carlo methods are mathematical techniques using repeated random samplings to obtain numerical results. It is mainly applied in three fields, which are optimization, numerical integration and generating plots from a probability distribution.
 
 The purpose of this project is to calculate true values of distribution function N(0,1) at various t and simulate approximated values through Monte Carlo methods. By comparison of the true and simulated values, accuracy and efficiency of utilization of Monte Carlo methods can be examined.
 
 The rest of this paper is organized as follows: In Section 2 and Section 3, basic math theory and the related chunks of R code are presented respectively. Results of one-time simulation and 100 repeated experiments in form of table and figures are identified in Section 4. Given in the final section of this report, brief discussion and conclusion are derived from the comparison of true values and simulated values.
 
-# 2. Math Theory
+# Math Theory
 Monte Carlo methods
-equation
+We approximate the distribudion function of N(0,1),
 $$\Phi(t) = \int_{-\infty}^t{\frac{1}{\sqrt{2\pi}}}e^{-\frac{y^2}{2}}{\rm d}y$$
 
-distribution function of N(0,1) equation
-$$\Phi(t) = \int_{-\infty}^t{\frac{1}{\sqrt{2\pi}}}e^{-\frac{y^2}{2}}{\rm d}y$$
-
-Monte Carlo methods equation
-$$\Phi$$
-
-# 3. Code chunks
+by the Monte Carlo methods:
+$$\hat\Phi(t)=\frac{1}{n}\sum_{i=1}^n{\mit{I}(X_i\leq t)},$$
+where $\mit X_i's$ are iid ${\mit{N}}(0,1)$ variables. Then we make the approximation at ${\mit n}\in\lbrace10^2,10^3,10^4\rbrace$ at ${\mit t}\in\lbrace0.0,0.67,0.84,1.28,1.65,2.32,2.58,3.09,3.72\rbrace$.The results are showed in the following table in Section 4.Further we repeat the experiment for 100 times and compute the bias, the boxplots of bias are showed in Section 5.
+# Code chunks
 
 
 
 
-# 4. Table
+# Table
 Table containing true values and approximated values derived from Monte Carlo methods is shown as below: 
-```{r echo=FALSE}
+```{r echo=FALSE, message=TRUE}
 Result_Matrix <- matrix(data = NA,nrow=5,ncol=9)
 t_set <- c(0,0.67,0.84,1.28,1.65,2.32,2.58,3.09,3.72)
 Result_Matrix[2,] <- as.matrix(pnorm(t_set))
@@ -65,12 +63,58 @@ knitr::kable(
   )
 ```
 
-# 5. Figures
+# Figures
+```{r echo=FALSE}
+N_set <- c(100, 1000, 10000)
+t_set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
+par(mfrow=c(3,3))
+for (t in t_set){
+  Bias <- matrix(data = NA, nrow = 3, ncol = 100)
+  true_value <- pnorm(t)
+  i = 1
+  for(N in N_set){
+    for(j in 1:100){
+    x <- rnorm(N, mean = 0, sd = 1)
+    Indicator_variable <- as.numeric(x <= t)
+    Fi_t <- mean(Indicator_variable)
+    Bias[i,j] <- Fi_t - true_value
+    }
+  i=i+1
+  }
+
+Bias_t <- t(Bias)
+Bias_N <- cbind(N100 = Bias_t[,1],N1000 = Bias_t[,2],N10000 = Bias_t[,3])
+boxplot(as.data.frame(Bias_N),ylim=c(-0.15,0.15))
+}
 
 
+```
+
+These are the boxplots of bias at different t and different n.
 
 
-# 6. Discussion and Conclusion
+# Discussion and Conclusion
+First, we take the boxplot at t=0 as an example. From the boxplot, when t is fixed, the bias decreases as n increases. The range of bias also decreases as n increases.
+```{r echo=FALSE}
+N_set <- c(100, 1000, 10000)
+Bias <- matrix(data = NA, nrow = 3, ncol = 100)
+true_value <- pnorm(0)
+i = 1
+for(N in N_set){
+  for(j in 1:100){
+  x <- rnorm(N, mean = 0, sd = 1)
+  Indicator_variable <- as.numeric(x <= 0)
+  Fi_t <- mean(Indicator_variable)
+  Bias[i,j] <- Fi_t - true_value
+  }
+i=i+1
+}
 
+Bias_t <- t(Bias)
+Bias_N <- cbind(N100 = Bias_t[,1],N1000 = Bias_t[,2],N10000 = Bias_t[,3])
+boxplot(as.data.frame(Bias_N),ylim=c(-0.15,0.15))
+```
+
+Second, when n is fixed, the bias decreases as t increases. The range of bias also decrease as t increases.
 
 
