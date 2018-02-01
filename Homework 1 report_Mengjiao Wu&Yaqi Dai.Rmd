@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Monte Carlo methods are mathematical techniques using repeated random samplings to obtain numerical results. It is mainly applied in three fields, which are optimization, numerical integration and generating plots from a probability distribution.
 
-The purpose of this project is to calculate true values of distribution function N(0,1) at various t and simulate approximated values through Monte Carlo methods. By comparison of the true and simulated values, accuracy and efficiency of utilization of Monte Carlo methods can be examined.
+The purpose of this project is to calculate true values of distribution function N(0, 1) at various t and simulate approximated values through Monte Carlo methods. By comparison of the true and simulated values, accuracy and efficiency of utilization of Monte Carlo methods can be examined.
 
 The rest of this paper is organized as follows: In Section 2 and Section 3, basic math theory and the related chunks of R code are presented respectively. Results of one-time simulation and 100 repeated experiments in form of table and figures are identified in Section 4. Given in the final section of this report, brief discussion and conclusion are derived from the comparison of true values and simulated values.
 
@@ -28,26 +28,26 @@ We approximate the distribudion function of N(0,1),
 $$\Phi(t) = \int_{-\infty}^t{\frac{1}{\sqrt{2\pi}}}e^{-\frac{y^2}{2}}{\rm d}y$$
 
 by the Monte Carlo methods:
-$$\hat\Phi(t)=\frac{1}{n}\sum_{i=1}^n{\mit{I}(X_i\leq t)},$$
-where $\mit X_i's$ are iid ${\mit{N}}(0,1)$ variables. Then we make the approximation at ${\mit n}\in\lbrace10^2,10^3,10^4\rbrace$ at ${\mit t}\in\lbrace0.0,0.67,0.84,1.28,1.65,2.32,2.58,3.09,3.72\rbrace$.The results are showed in the following table in Section 4.Further we repeat the experiment for 100 times and compute the bias, the boxplots of bias are showed in Section 5.
+$$\hat\Phi(t) = \frac{1}{n}\sum_{i=1}^n{\mit{I}(X_i\leq t)},$$
+where $\mit X_i's$ are iid ${\mit{N}}(0,1)$ variables. Then we make the approximation at ${\mit n}\in\lbrace10^2,10^3,10^4\rbrace$ at ${\mit t}\in\lbrace0.0, 0.67, 0.84, 1.28, 1.65, 2.32,2.58, 3.09, 3.72\rbrace$.The results are showed in the following table in Section 4.Further we repeat the experiment for 100 times and compute the bias, the boxplots of bias are showed in Section 5.
 
 # Code chunks
 
 Code chunk for calculating the true values and approximated values through Monte Carlo methods is shown as:
 ```{r, eval=FALSE}
-Result_Matrix <- matrix(data = NA, nrow = 5, ncol = 9)
-t_set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
-Result_Matrix[2,] <- as.matrix(pnorm(t_set))
-N_set <- c(100, 1000, 10000)
-Result_Matrix[1,] <- t_set
+Result.matrix <- matrix(data = NA, nrow = 5, ncol = 9)
+t.Set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
+Result.matrix[2, ] <- as.matrix(pnorm(t.Set))
+N.Set <- c(100, 1000, 10000)
+Result.matrix[1, ] <- t.Set
 i = 3
-for(N in N_set){
+for(N in N.Set){
   j = 1
-  for(t in t_set){
+  for(t in t.Set){
     x <- rnorm(N, mean = 0, sd = 1)
-    Indicator_variable <- as.numeric(x <= t)
-    Fi_t <- mean(Indicator_variable)
-    Result_Matrix[i,j] <- Fi_t
+    Indicator.Variable <- as.numeric(x <= t)
+    Fi.t <- mean(Indicator.Variable)
+    Result.matrix[i, j] <- Fi.t
     j = j+1
   }
   i = i+1
@@ -56,26 +56,26 @@ for(N in N_set){
 
 And code chunk for drawing box plots of bias at different t values is displayed as: 
 ```{r, eval=FALSE}
-N_set <- c(100, 1000, 10000)
-t_set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
+N.Set <- c(100, 1000, 10000)
+t.Set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
 
-for (t in t_set){
+for (t in t.Set){
   Bias <- matrix(data = NA, nrow = 3, ncol = 100)
-  true_value <- pnorm(t)
+  True.value <- pnorm(t)
   i = 1
-  for(N in N_set){
+  for(N in N.Set){
     for(j in 1:100){
     x <- rnorm(N, mean = 0, sd = 1)
-    Indicator_variable <- as.numeric(x <= t)
-    Fi_t <- mean(Indicator_variable)
-    Bias[i,j] <- Fi_t - true_value
+    Indicator.Variable <- as.numeric(x <= t)
+    Fi.t <- mean(Indicator.Variable)
+    Bias[i, j] <- Fi.t - True.value
     }
   i=i+1
   }
 
-Bias_t <- t(Bias)
-Bias_N <- cbind(N100 = Bias_t[,1], N1000 = Bias_t[,2], N10000 = Bias_t[,3])
-boxplot(as.data.frame(Bias_N))
+Bias.t <- t(Bias)
+Bias.N <- cbind(N100 = Bias.t[, 1], N1000 = Bias.t[, 2], N10000 = Bias.t[, 3])
+boxplot(as.data.frame(Bias.N))
 }
 ```
 
@@ -83,29 +83,29 @@ boxplot(as.data.frame(Bias_N))
 
 Table containing true values and approximated values derived from Monte Carlo methods is shown as below: 
 ```{r, echo=FALSE, message=TRUE}
-Result_Matrix <- matrix(data = NA, nrow = 5, ncol = 9)
-t_set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
-Result_Matrix[2,] <- as.matrix(pnorm(t_set))
-N_set <- c(100, 1000, 10000)
-Result_Matrix[1,] <- t_set
+Result.Matrix <- matrix(data = NA, nrow = 5, ncol = 9)
+t.Set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
+Result.Matrix[2, ] <- as.matrix(pnorm(t.Set))
+N.Set <- c(100, 1000, 10000)
+Result.Matrix[1, ] <- t.Set
 i = 3
-for(N in N_set){
+for(N in N.Set){
   j = 1
-  for(t in t_set){
+  for(t in t.Set){
     x <- rnorm(N, mean = 0, sd = 1)
-    Indicator_variable <- as.numeric(x <= t)
-    Fi_t <- mean(Indicator_variable)
-    Result_Matrix[i,j] <- Fi_t
+    Indicator.Variable <- as.numeric(x <= t)
+    Fi.t <- mean(Indicator.Variable)
+    Result.Matrix[i, j] <- Fi.t
     j = j+1
   }
   i = i+1
 }
-Result_Table <- t(Result_Matrix) 
-colnames(Result_Table) <- c("**t value**", "**True value**", 
+Result.table <- t(Result.Matrix) 
+colnames(Result.table) <- c("**t value**", "**True value**", 
                             "**N=100**", "**N=1000**", 
                             "**N=10000**")
 knitr::kable(
-  Result_Table, digits = 4, align = c(rep('c',5)), 
+  Result.table, digits = 4, align = c(rep('c', 5)), 
   caption = "True & approximated values for different Ns"
   )
 ```
@@ -113,26 +113,26 @@ knitr::kable(
 # Figures
 
 ```{r, echo=FALSE, message=TRUE}
-N_set <- c(100, 1000, 10000)
-t_set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
-par(mfrow = c(3,3))
-for (t in t_set){
+N.Set <- c(100, 1000, 10000)
+t.Set <- c(0, 0.67, 0.84, 1.28, 1.65, 2.32, 2.58, 3.09, 3.72)
+par(mfrow = c(3, 3))
+for (t in t.Set){
   Bias <- matrix(data = NA, nrow = 3, ncol = 100)
-  true_value <- pnorm(t)
+  True.value <- pnorm(t)
   i = 1
-  for(N in N_set){
+  for(N in N.Set){
     for(j in 1:100){
     x <- rnorm(N, mean = 0, sd = 1)
-    Indicator_variable <- as.numeric(x <= t)
-    Fi_t <- mean(Indicator_variable)
-    Bias[i,j] <- Fi_t - true_value
+    Indicator.Variable <- as.numeric(x <= t)
+    Fi.t <- mean(Indicator.Variable)
+    Bias[i, j] <- Fi.t - True.value
     }
   i=i+1
   }
 
-Bias_t <- t(Bias)
-Bias_N <- cbind(N100 = Bias_t[,1], N1000 = Bias_t[,2], N10000 = Bias_t[,3])
-boxplot(as.data.frame(Bias_N), ylim = c(-0.15,0.15))
+Bias.t <- t(Bias)
+Bias.N <- cbind(N100 = Bias.t[, 1], N1000 = Bias.t[, 2], N10000 = Bias.t[, 3])
+boxplot(as.data.frame(Bias.N), ylim = c(-0.15, 0.15))
 }
 ```
 
@@ -144,23 +144,23 @@ These are the boxplots of bias at different t and different n.
 First, we take the boxplot at t=0 as an example. From the boxplot, when t is fixed, the bias decreases as n increases. The range of bias also decreases as n increases.
 
 ```{r echo=FALSE}
-N_set <- c(100, 1000, 10000)
+N.Set <- c(100, 1000, 10000)
 Bias <- matrix(data = NA, nrow = 3, ncol = 100)
-true_value <- pnorm(0)
+True.value <- pnorm(0)
 i = 1
-for(N in N_set){
+for(N in N.Set){
   for(j in 1:100){
   x <- rnorm(N, mean = 0, sd = 1)
-  Indicator_variable <- as.numeric(x <= 0)
-  Fi_t <- mean(Indicator_variable)
-  Bias[i,j] <- Fi_t - true_value
+  Indicator.variable <- as.numeric(x <= 0)
+  Fi.t <- mean(Indicator.variable)
+  Bias[i, j] <- Fi.t - True.value
   }
 i=i+1
 }
 
-Bias_t <- t(Bias)
-Bias_N <- cbind(N100 = Bias_t[,1], N1000 = Bias_t[,2], N10000 = Bias_t[,3])
-boxplot(as.data.frame(Bias_N), ylim = c(-0.15,0.15))
+Bias.t <- t(Bias)
+Bias.N <- cbind(N100 = Bias.t[, 1], N1000 = Bias.t[, 2], N10000 = Bias.t[, 3])
+boxplot(as.data.frame(Bias.N), ylim = c(-0.15, 0.15))
 ```
 
 Second, when n is fixed, the bias decreases as t increases. The range of bias also decrease as t increases.
